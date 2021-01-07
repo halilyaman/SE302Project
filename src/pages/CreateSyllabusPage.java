@@ -172,11 +172,10 @@ public class CreateSyllabusPage extends JPanel {
             if (theory >= 0 && lab >= 0) {
                 int localCredits = theory + (lab / 2);
                 localCreditsLabel.setText(Integer.toString(localCredits));
-                localCreditsLabel.updateUI();
             } else {
                 localCreditsLabel.setText("...");
-                localCreditsLabel.updateUI();
             }
+            localCreditsLabel.updateUI();
         } catch(Exception e) {
             localCreditsLabel.setText("...");
             localCreditsLabel.updateUI();
