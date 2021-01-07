@@ -1,20 +1,23 @@
 package pages;
 
+import pages.elements.HintTextField;
 import res.Values;
+import utils.GuiUtils;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class CreateSyllabusPage extends JPanel {
     final private JPanel topPanel;
     final private JPanel formPanel;
-    final private JTextField courseNameField;
+    final private HintTextField courseNameField;
 
     public CreateSyllabusPage() {
         // initializations
         topPanel = new JPanel();
         formPanel = new JPanel();
-        courseNameField = new JTextField();
+        courseNameField = new HintTextField("Type course name...");
 
         // set layout
         this.setLayout(new BorderLayout());
@@ -49,6 +52,7 @@ public class CreateSyllabusPage extends JPanel {
     private void buildFormPanel() {
         formPanel.setBackground(Values.AppColors.backgroundColor);
         formPanel.add(buildFirstPanel());
+        formPanel.add(buildSecondPanel());
     }
 
     private JPanel buildFirstPanel() {
@@ -56,22 +60,24 @@ public class CreateSyllabusPage extends JPanel {
         JPanel firstPanel = new JPanel(new GridLayout(1, 2));
         firstPanel.setBackground(Values.AppColors.backgroundColor);
         firstPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium));
-        firstPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createEtchedBorder(Values.AppColors.borderColor, Values.AppColors.backgroundColor),
-                BorderFactory.createEmptyBorder(
-                        Values.paddingSmall, // top
-                        Values.paddingSmall, // left
-                        Values.paddingSmall, // bottom
-                        Values.paddingSmall  // right
-                )
-        ));
+        firstPanel.setBorder(GuiUtils.emptyBorder);
 
         // set first panel content
-        JLabel courseNameLabel = new JLabel("Course Name");
-        courseNameLabel.setForeground(Values.AppColors.textColor);
+        JLabel courseNameLabel = GuiUtils.buildLabelWithBorder("Course Name");
+        courseNameField.setBorder(BorderFactory.createCompoundBorder(GuiUtils.lineBorder, GuiUtils.emptyBorder));
+        courseNameField.setName("");
         firstPanel.add(courseNameLabel);
         firstPanel.add(courseNameField);
 
         return firstPanel;
+    }
+
+    private JPanel buildSecondPanel() {
+        // create second panel
+        JPanel secondPanel = new JPanel(new GridLayout(2, 6));
+        secondPanel.setBackground(Values.AppColors.backgroundColor);
+        secondPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium));
+        secondPanel.setBorder(GuiUtils.emptyBorder);
+        return secondPanel;
     }
 }
