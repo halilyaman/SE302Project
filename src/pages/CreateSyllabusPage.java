@@ -6,6 +6,8 @@ import utils.GuiUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CreateSyllabusPage extends JPanel {
     final private JPanel topPanel;
@@ -88,6 +90,7 @@ public class CreateSyllabusPage extends JPanel {
         secondPanel.setPreferredSize(new Dimension(Values.formWidth, 90));
         secondPanel.setBorder(GuiUtils.emptyBorder);
 
+        // create second panel content
         JLabel codeLabel = GuiUtils.buildLabelWithBorder("Code");
         JLabel semesterLabel = GuiUtils.buildLabelWithBorder("Semester");
         JLabel theoryLabel = GuiUtils.buildLabelWithBorder("<html>Theory<br/>(hour/week)</html>");
@@ -96,6 +99,16 @@ public class CreateSyllabusPage extends JPanel {
         JLabel localCreditsLabel = GuiUtils.buildLabelWithBorder("Local Credits");
         JLabel ectsLabel = GuiUtils.buildLabelWithBorder("ECTS");
 
+        // create combo box for semester field
+        JComboBox<String> semesterList = new JComboBox<>(Values.SyllabusValues.syllabusValues);
+        semesterList.setSelectedIndex(0);
+        semesterList.addActionListener(actionEvent -> {
+            JComboBox cb = (JComboBox) actionEvent.getSource();
+            String semesterValue = (String) cb.getSelectedItem();
+            semesterList.setSelectedItem(semesterValue);
+        });
+
+        // set second panel content
         secondPanel.add(codeLabel);
         secondPanel.add(semesterLabel);
         secondPanel.add(theoryLabel);
@@ -103,7 +116,7 @@ public class CreateSyllabusPage extends JPanel {
         secondPanel.add(localCreditsLabel);
         secondPanel.add(ectsLabel);
         secondPanel.add(codeField);
-        secondPanel.add(semesterField);
+        secondPanel.add(semesterList);
         secondPanel.add(theoryField);
         secondPanel.add(appLabField);
         secondPanel.add(localCreditsField);

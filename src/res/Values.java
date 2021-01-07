@@ -1,6 +1,7 @@
 package res;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Values {
     final static public int screenHeight = 720;
@@ -14,5 +15,9 @@ public class Values {
         final static public Color backgroundColor = new Color(0xffffffff);
         final static public Color textColor = new Color(0xff002699);
         final static public Color borderColor = new Color(0xffccd9ff);
+    }
+
+    static public class SyllabusValues {
+        static public String[] syllabusValues = {"Fall", "Spring", "Summer"};
     }
 }
