@@ -5,7 +5,14 @@ import res.Values;
 import utils.GuiUtils;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 
 public class CreateSyllabusPage extends JPanel {
     final private JPanel topPanel;
@@ -14,8 +21,8 @@ public class CreateSyllabusPage extends JPanel {
     final private HintTextField codeField;
     final private HintTextField theoryField;
     final private HintTextField appLabField;
-    final private HintTextField localCreditsField;
-    final private HintTextField ectsField;
+    final private JLabel localCreditsLabel;
+    final private JLabel ectsLabel;
     final private JComboBox<String> semesterComboBox;
 
 
@@ -27,8 +34,8 @@ public class CreateSyllabusPage extends JPanel {
         codeField = GuiUtils.buildTextFieldWithBorder();
         theoryField = GuiUtils.buildTextFieldWithBorder();
         appLabField = GuiUtils.buildTextFieldWithBorder();
-        localCreditsField = GuiUtils.buildTextFieldWithBorder();
-        ectsField = GuiUtils.buildTextFieldWithBorder();
+        localCreditsLabel = GuiUtils.buildLabelWithBorder("...");
+        ectsLabel = GuiUtils.buildLabelWithBorder("...");
         semesterComboBox = new JComboBox<>(Values.SyllabusValues.syllabusValues);
 
         // set layout
@@ -117,9 +124,62 @@ public class CreateSyllabusPage extends JPanel {
         secondPanel.add(semesterComboBox);
         secondPanel.add(theoryField);
         secondPanel.add(appLabField);
-        secondPanel.add(localCreditsField);
-        secondPanel.add(ectsField);
+        secondPanel.add(this.localCreditsLabel);
+        secondPanel.add(this.ectsLabel);
+
+        // set action listeners
+        theoryField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateLocalCreditAndEcts();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLocalCreditAndEcts();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLocalCreditAndEcts();
+            }
+        });
+
+        appLabField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateLocalCreditAndEcts();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLocalCreditAndEcts();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLocalCreditAndEcts();
+            }
+        });
 
         return secondPanel;
+    }
+
+    private void updateLocalCreditAndEcts() {
+        try {
+            int theory = Integer.parseInt(theoryField.getText());
+            int lab = Integer.parseInt(appLabField.getText());
+            if (theory >= 0 && lab >= 0) {
+                int localCredits = theory + (lab / 2);
+                localCreditsLabel.setText(Integer.toString(localCredits));
+                localCreditsLabel.updateUI();
+            } else {
+                localCreditsLabel.setText("...");
+                localCreditsLabel.updateUI();
+            }
+        } catch(Exception e) {
+            localCreditsLabel.setText("...");
+            localCreditsLabel.updateUI();
+        }
     }
 }
