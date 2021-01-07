@@ -5,8 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main {
-    private static final Values values = new Values();
-
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
