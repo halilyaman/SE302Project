@@ -6,15 +6,12 @@ import utils.GuiUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class CreateSyllabusPage extends JPanel {
     final private JPanel topPanel;
     final private JPanel formPanel;
     final private HintTextField courseNameField;
     final private HintTextField codeField;
-    final private HintTextField semesterField;
     final private HintTextField theoryField;
     final private HintTextField appLabField;
     final private HintTextField localCreditsField;
@@ -26,7 +23,6 @@ public class CreateSyllabusPage extends JPanel {
         formPanel = new JPanel();
         courseNameField = GuiUtils.buildTextFieldWithBorder();
         codeField = GuiUtils.buildTextFieldWithBorder();
-        semesterField = GuiUtils.buildTextFieldWithBorder();
         theoryField = GuiUtils.buildTextFieldWithBorder();
         appLabField = GuiUtils.buildTextFieldWithBorder();
         localCreditsField = GuiUtils.buildTextFieldWithBorder();
