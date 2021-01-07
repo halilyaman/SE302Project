@@ -5,19 +5,30 @@ import res.Values;
 import utils.GuiUtils;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class CreateSyllabusPage extends JPanel {
     final private JPanel topPanel;
     final private JPanel formPanel;
     final private HintTextField courseNameField;
+    final private HintTextField codeField;
+    final private HintTextField semesterField;
+    final private HintTextField theoryField;
+    final private HintTextField appLabField;
+    final private HintTextField localCreditsField;
+    final private HintTextField ectsField;
 
     public CreateSyllabusPage() {
         // initializations
         topPanel = new JPanel();
         formPanel = new JPanel();
-        courseNameField = new HintTextField("Type course name...");
+        courseNameField = GuiUtils.buildTextFieldWithBorder();
+        codeField = GuiUtils.buildTextFieldWithBorder();
+        semesterField = GuiUtils.buildTextFieldWithBorder();
+        theoryField = GuiUtils.buildTextFieldWithBorder();
+        appLabField = GuiUtils.buildTextFieldWithBorder();
+        localCreditsField = GuiUtils.buildTextFieldWithBorder();
+        ectsField = GuiUtils.buildTextFieldWithBorder();
 
         // set layout
         this.setLayout(new BorderLayout());
@@ -64,8 +75,6 @@ public class CreateSyllabusPage extends JPanel {
 
         // set first panel content
         JLabel courseNameLabel = GuiUtils.buildLabelWithBorder("Course Name");
-        courseNameField.setBorder(BorderFactory.createCompoundBorder(GuiUtils.lineBorder, GuiUtils.emptyBorder));
-        courseNameField.setName("");
         firstPanel.add(courseNameLabel);
         firstPanel.add(courseNameField);
 
@@ -76,8 +85,30 @@ public class CreateSyllabusPage extends JPanel {
         // create second panel
         JPanel secondPanel = new JPanel(new GridLayout(2, 6));
         secondPanel.setBackground(Values.AppColors.backgroundColor);
-        secondPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium));
+        secondPanel.setPreferredSize(new Dimension(Values.formWidth, 90));
         secondPanel.setBorder(GuiUtils.emptyBorder);
+
+        JLabel codeLabel = GuiUtils.buildLabelWithBorder("Code");
+        JLabel semesterLabel = GuiUtils.buildLabelWithBorder("Semester");
+        JLabel theoryLabel = GuiUtils.buildLabelWithBorder("<html>Theory<br/>(hour/week)</html>");
+        JLabel appLabLabel = GuiUtils.buildLabelWithBorder("<html>Application/Lab<br/>(hour/week)</html>");
+        appLabLabel.setVerticalAlignment(JLabel.CENTER);
+        JLabel localCreditsLabel = GuiUtils.buildLabelWithBorder("Local Credits");
+        JLabel ectsLabel = GuiUtils.buildLabelWithBorder("ECTS");
+
+        secondPanel.add(codeLabel);
+        secondPanel.add(semesterLabel);
+        secondPanel.add(theoryLabel);
+        secondPanel.add(appLabLabel);
+        secondPanel.add(localCreditsLabel);
+        secondPanel.add(ectsLabel);
+        secondPanel.add(codeField);
+        secondPanel.add(semesterField);
+        secondPanel.add(theoryField);
+        secondPanel.add(appLabField);
+        secondPanel.add(localCreditsField);
+        secondPanel.add(ectsField);
+
         return secondPanel;
     }
 }

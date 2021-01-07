@@ -1,5 +1,6 @@
 package utils;
 
+import pages.elements.HintTextField;
 import res.Values;
 
 import javax.swing.*;
@@ -18,7 +19,12 @@ public class GuiUtils {
         JLabel courseNameLabel = new JLabel(text);
         courseNameLabel.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
         courseNameLabel.setForeground(Values.AppColors.textColor);
-
         return courseNameLabel;
+    }
+
+    public static HintTextField buildTextFieldWithBorder() {
+        HintTextField hintTextField = new HintTextField("...");
+        hintTextField.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+        return hintTextField;
     }
 }
