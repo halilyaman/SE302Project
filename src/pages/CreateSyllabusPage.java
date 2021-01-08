@@ -21,8 +21,8 @@ public class CreateSyllabusPage extends JPanel {
     final private JComboBox<String> semesterComboBox;
     final private HintTextField prerequisitesField;
     final private HintTextField languageField;
-    final private HintTextField typeField;
-    final private HintTextField levelField;
+    final private JComboBox<String> courseTypeComboBox;
+    final private JComboBox<String> courseLevelComboBox;
     final private HintTextField coordinatorField;
     final private HintTextField lecturersField;
     final private HintTextField assistantsField;
@@ -38,11 +38,11 @@ public class CreateSyllabusPage extends JPanel {
         appLabField = GuiUtils.buildTextFieldWithBorder();
         localCreditsLabel = GuiUtils.buildLabelWithBorder("...");
         ectsLabel = GuiUtils.buildLabelWithBorder("...");
-        semesterComboBox = new JComboBox<>(Values.SyllabusValues.syllabusValues);
+        semesterComboBox = new JComboBox<>(Values.SyllabusValues.semesters);
         prerequisitesField = GuiUtils.buildTextFieldWithBorder();
         languageField = GuiUtils.buildTextFieldWithBorder();
-        typeField = GuiUtils.buildTextFieldWithBorder();
-        levelField = GuiUtils.buildTextFieldWithBorder();
+        courseTypeComboBox = new JComboBox<>(Values.SyllabusValues.courseTypes);
+        courseLevelComboBox = new JComboBox<>(Values.SyllabusValues.courseLevels);
         coordinatorField = GuiUtils.buildTextFieldWithBorder();
         lecturersField = GuiUtils.buildTextFieldWithBorder();
         assistantsField = GuiUtils.buildTextFieldWithBorder();
@@ -124,8 +124,8 @@ public class CreateSyllabusPage extends JPanel {
         semesterComboBox.setSelectedIndex(0);
         semesterComboBox.addActionListener(actionEvent -> {
             JComboBox cb = (JComboBox) actionEvent.getSource();
-            String semesterValue = (String) cb.getSelectedItem();
-            semesterComboBox.setSelectedItem(semesterValue);
+            String value = (String) cb.getSelectedItem();
+            semesterComboBox.setSelectedItem(value);
         });
 
         // set second panel content
@@ -201,7 +201,7 @@ public class CreateSyllabusPage extends JPanel {
         // create third panel
         JPanel thirdPanel = new JPanel(new GridLayout(7, 2));
         thirdPanel.setBackground(Values.AppColors.backgroundColor);
-        thirdPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium * 6));
+        thirdPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium * 5));
         thirdPanel.setBorder(GuiUtils.emptyBorder);
 
         // create third panel content
@@ -213,15 +213,31 @@ public class CreateSyllabusPage extends JPanel {
         JLabel courseLecturerLabel = GuiUtils.buildLabelWithBorder("<html>Course<br/>Lecturer(s)</html>");
         JLabel assistantLabel = GuiUtils.buildLabelWithBorder("Assistant(s)");
 
+        // create combo box for course type
+        courseTypeComboBox.setSelectedIndex(0);
+        courseTypeComboBox.addActionListener(actionEvent -> {
+            JComboBox cb = (JComboBox) actionEvent.getSource();
+            String value = (String) cb.getSelectedItem();
+            courseTypeComboBox.setSelectedItem(value);
+        });
+
+        // create combo box for course level
+        courseLevelComboBox.setSelectedIndex(0);
+        courseLevelComboBox.addActionListener(actionEvent -> {
+            JComboBox cb = (JComboBox) actionEvent.getSource();
+            String value = (String) cb.getSelectedItem();
+            courseLevelComboBox.setSelectedItem(value);
+        });
+
         // set third panel content
         thirdPanel.add(prerequisitesLabel);
         thirdPanel.add(prerequisitesField);
         thirdPanel.add(courseLangLabel);
         thirdPanel.add(languageField);
         thirdPanel.add(courseTypeLabel);
-        thirdPanel.add(typeField);
+        thirdPanel.add(courseTypeComboBox);
         thirdPanel.add(courseLevelLabel);
-        thirdPanel.add(levelField);
+        thirdPanel.add(courseLevelComboBox);
         thirdPanel.add(courseCoordinatorLabel);
         thirdPanel.add(coordinatorField);
         thirdPanel.add(courseLecturerLabel);

@@ -18,6 +18,8 @@ public class Values {
     }
 
     static public class SyllabusValues {
-        static public String[] syllabusValues = {"Fall", "Spring", "Summer"};
+        static public String[] semesters = {"Fall", "Spring", "Summer"};
+        static public String[] courseTypes = {"Required", "Service Course"};
+        static public String[] courseLevels = {"First Cycle", "Second Cycle", "Third Cycle"};
     }
 }
