@@ -7,6 +7,8 @@ import utils.GuiUtils;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
 import java.awt.*;
 
 public class CreateSyllabusPage extends JPanel {
@@ -121,6 +123,7 @@ public class CreateSyllabusPage extends JPanel {
         JLabel ectsLabel = GuiUtils.buildLabelWithBorder("ECTS");
 
         // create combo box for semester field
+        semesterComboBox.setBackground(Values.AppColors.backgroundColor);
         semesterComboBox.setSelectedIndex(0);
         semesterComboBox.addActionListener(actionEvent -> {
             JComboBox cb = (JComboBox) actionEvent.getSource();
@@ -214,6 +217,7 @@ public class CreateSyllabusPage extends JPanel {
         JLabel assistantLabel = GuiUtils.buildLabelWithBorder("Assistant(s)");
 
         // create combo box for course type
+        courseTypeComboBox.setBackground(Values.AppColors.backgroundColor);
         courseTypeComboBox.setSelectedIndex(0);
         courseTypeComboBox.addActionListener(actionEvent -> {
             JComboBox cb = (JComboBox) actionEvent.getSource();
@@ -222,6 +226,7 @@ public class CreateSyllabusPage extends JPanel {
         });
 
         // create combo box for course level
+        courseLevelComboBox.setBackground(Values.AppColors.backgroundColor);
         courseLevelComboBox.setSelectedIndex(0);
         courseLevelComboBox.addActionListener(actionEvent -> {
             JComboBox cb = (JComboBox) actionEvent.getSource();
