@@ -50,14 +50,16 @@ public class CreateSyllabusPage extends JPanel {
         // set layout
         this.setLayout(new BorderLayout());
 
-        // set background color
-        this.setBackground(Values.AppColors.backgroundColor);
-
+        // build buttons
         buildTopPanel();
         this.add(topPanel, BorderLayout.NORTH);
 
+        // build form area
         buildFormPanel();
-        this.add(formPanel, BorderLayout.CENTER);
+        JPanel innerPanel = new JPanel();
+        JScrollPane scrollPane = new JScrollPane(innerPanel);
+        innerPanel.add(formPanel);
+        this.add(scrollPane, BorderLayout.CENTER);
     }
 
     private void buildTopPanel() {
@@ -79,6 +81,9 @@ public class CreateSyllabusPage extends JPanel {
 
     private void buildFormPanel() {
         formPanel.setBackground(Values.AppColors.backgroundColor);
+        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+
+        // set form content
         formPanel.add(buildFirstPanel());
         formPanel.add(buildSecondPanel());
         formPanel.add(buildThirdPanel());
@@ -87,6 +92,7 @@ public class CreateSyllabusPage extends JPanel {
     private JPanel buildFirstPanel() {
         // create first panel
         JPanel firstPanel = new JPanel(new GridLayout(1, 2));
+        firstPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
         firstPanel.setBackground(Values.AppColors.backgroundColor);
         firstPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium));
         firstPanel.setBorder(GuiUtils.emptyBorder);
