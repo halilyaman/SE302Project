@@ -1,18 +1,14 @@
 package pages;
 
 import res.Values;
+import utils.Navigator;
 
 import java.awt.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JPopupMenu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.image.BufferedImage;
@@ -44,11 +40,9 @@ public class WelcomePage extends JPanel{
 		createMenuPanel();
 	}
 
-	public void createSyllabusPage()
+	public void openCreateSyllabusPage()
 	{
-		//CreateSyllabusPage createPage= new CreateSyllabusPage();
-		
-		//displayPanel.add(createPage);
+		Navigator.push(new CreateSyllabusPage());
 	}
 	
 	public void fetchSyllabusPage()
@@ -122,7 +116,7 @@ public class WelcomePage extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				createSyllabusPage();
+				openCreateSyllabusPage();
 				
 			}
 		});

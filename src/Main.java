@@ -1,6 +1,7 @@
 import pages.CreateSyllabusPage;
 import pages.WelcomePage;
 import res.Values;
+import utils.Navigator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +34,8 @@ public class Main {
         initLookAndFeel();
 
         // create main frame
-        JFrame frame = new JFrame("Syllabus Application");
+        JFrame frame = Navigator.getFrame();
+        frame.setTitle("Syllabus Application");
         frame.setSize(Values.screenWidth, Values.screenHeight);
 
         // center window
@@ -44,7 +46,7 @@ public class Main {
 
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new WelcomePage(), BorderLayout.CENTER);
+        Navigator.push(new WelcomePage());
         frame.setVisible(true);
     }
 }
