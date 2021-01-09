@@ -1,23 +1,21 @@
-package project;
-//package pages;
+package pages;
 
-import java.awt.EventQueue;
+import java.awt.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BoxLayout;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 //import pages.CreateSyllabusPage;
@@ -114,10 +112,21 @@ public class WelcomePage extends JPanel{
 		welcomeTextLabel.setBounds(344, 52, 666, 41);
 		topPanel.add(welcomeTextLabel);
 		
-		logoLabel = new JLabel("New label");
-		logoLabel.setIcon(new ImageIcon(WelcomePage.class.getResource("/Icon/ieuLogo2.png")));
-		logoLabel.setBounds(24, 0, 200, 143);
-		topPanel.add(logoLabel);
+		logoLabel = new JLabel();
+		logoLabel.setBounds(50, 5, 120, 120);
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File("assets/ic_logo.png"));
+			Image scaledImage = img.getScaledInstance(
+					logoLabel.getWidth(),
+					logoLabel.getHeight(),
+					Image.SCALE_SMOOTH);
+			ImageIcon ieuLogo = new ImageIcon(scaledImage);
+			logoLabel.setIcon(ieuLogo);
+			topPanel.add(logoLabel);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void createMenuPanel()
