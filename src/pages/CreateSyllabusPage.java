@@ -3,6 +3,7 @@ package pages;
 import pages.elements.HintTextField;
 import res.Values;
 import utils.GuiUtils;
+import utils.Navigator;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -10,6 +11,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CreateSyllabusPage extends JPanel {
     final private JPanel topPanel;
@@ -73,6 +76,14 @@ public class CreateSyllabusPage extends JPanel {
         JButton backButton = new JButton("BACK");
         JButton saveButton = new JButton("SAVE");
         JButton exportButton = new JButton("EXPORT");
+
+        // set listener for back button
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Navigator.pop();
+            }
+        });
 
         childTopPanel.add(backButton);
         childTopPanel.add(saveButton);
