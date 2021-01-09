@@ -8,8 +8,6 @@ import utils.Navigator;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +29,10 @@ public class CreateSyllabusPage extends JPanel {
     final private HintTextField coordinatorField;
     final private HintTextField lecturersField;
     final private HintTextField assistantsField;
-
+    final private HintTextField courseObjectivesField;
+    final private HintTextField learningOutcomesField;
+    final private HintTextField courseDescriptionField;
+    final private JComboBox<String> courseCategoryComboBox;
 
     public CreateSyllabusPage() {
         // initializations
@@ -51,6 +52,10 @@ public class CreateSyllabusPage extends JPanel {
         coordinatorField = GuiUtils.buildTextFieldWithBorder();
         lecturersField = GuiUtils.buildTextFieldWithBorder();
         assistantsField = GuiUtils.buildTextFieldWithBorder();
+        courseObjectivesField = GuiUtils.buildTextFieldWithBorder();
+        learningOutcomesField = GuiUtils.buildTextFieldWithBorder();
+        courseDescriptionField = GuiUtils.buildTextFieldWithBorder();
+        courseCategoryComboBox = new JComboBox<>(Values.SyllabusValues.courseCategories);
 
         // set layout
         this.setLayout(new BorderLayout());
@@ -100,6 +105,9 @@ public class CreateSyllabusPage extends JPanel {
         formPanel.add(buildFirstPanel());
         formPanel.add(buildSecondPanel());
         formPanel.add(buildThirdPanel());
+        formPanel.add(buildFourthPanel());
+        formPanel.add(buildFifthPanel());
+        formPanel.add(buildTitle("WEEKLY SUBJECTS AND RELATED PREPARATION STUDIES"));
     }
 
     private JPanel buildFirstPanel() {
@@ -262,5 +270,62 @@ public class CreateSyllabusPage extends JPanel {
         thirdPanel.add(assistantsField);
 
         return thirdPanel;
+    }
+
+    private JPanel buildFourthPanel() {
+        // create fourth panel
+        JPanel fourthPanel = new JPanel(new GridLayout(3, 2));
+        fourthPanel.setBackground(Values.AppColors.backgroundColor);
+        fourthPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium * 3));
+        fourthPanel.setBorder(GuiUtils.emptyBorder);
+
+        // create fourth panel content
+        JLabel courseObjectivesLabel = GuiUtils.buildLabelWithBorder("<html>Course<br/>Objectives</html>");
+        JLabel learningOutcomesLabel = GuiUtils.buildLabelWithBorder("<html>Learning<br/>Outcomes</html>");
+        JLabel courseDescriptionLabel = GuiUtils.buildLabelWithBorder("<html>Course<br/>Description</html>");
+
+        // set fourth panel content
+        fourthPanel.add(courseObjectivesLabel);
+        fourthPanel.add(courseObjectivesField);
+        fourthPanel.add(learningOutcomesLabel);
+        fourthPanel.add(learningOutcomesField);
+        fourthPanel.add(courseDescriptionLabel);
+        fourthPanel.add(courseDescriptionField);
+
+        return fourthPanel;
+    }
+
+    private JPanel buildFifthPanel() {
+        // create fifth panel
+        JPanel fifthPanel = new JPanel(new GridLayout(1, 2));
+        fifthPanel.setBackground(Values.AppColors.backgroundColor);
+        fifthPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium));
+        fifthPanel.setBorder(GuiUtils.emptyBorder);
+
+        // create fifth panel content
+        JLabel courseCategoryLabel = GuiUtils.buildLabelWithBorder("<html>Course<br/>Category</html>");
+
+        // create combo box for course category
+        courseCategoryComboBox.setBackground(Values.AppColors.backgroundColor);
+        courseCategoryComboBox.setSelectedIndex(0);
+        courseCategoryComboBox.addActionListener(actionEvent -> {
+            JComboBox cb = (JComboBox) actionEvent.getSource();
+            String value = (String) cb.getSelectedItem();
+            courseCategoryComboBox.setSelectedItem(value);
+        });
+
+        // set fifth panel content
+        fifthPanel.add(courseCategoryLabel);
+        fifthPanel.add(courseCategoryComboBox);
+
+        return fifthPanel;
+    }
+
+    private JLabel buildTitle(final String title) {
+        JLabel titleLabel = new JLabel(title);
+        titleLabel.setFont(new Font("Default", Font.BOLD, 20));
+        titleLabel.setAlignmentX(JLabel.WEST);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        return titleLabel;
     }
 }

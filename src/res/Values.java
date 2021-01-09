@@ -25,5 +25,11 @@ public class Values {
         static public String[] semesters = {"Fall", "Spring", "Summer"};
         static public String[] courseTypes = {"Required", "Service Course"};
         static public String[] courseLevels = {"First Cycle", "Second Cycle", "Third Cycle"};
+        static public String[] courseCategories = {
+                "Core Courses",
+                "Major Area Courses",
+                "Supportive Courses",
+                "Media and Management Skills Courses",
+                "Transferable Skill Courses"};
     }
 }
