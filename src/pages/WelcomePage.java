@@ -1,5 +1,7 @@
 package pages;
 
+import res.Values;
+
 import java.awt.*;
 
 import javax.imageio.ImageIO;
@@ -18,60 +20,30 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-//import pages.CreateSyllabusPage;
-public class WelcomePage extends JPanel{
 
-	private JFrame frame;
+public class WelcomePage extends JPanel{
 	private JPanel topPanel;
 	private JLabel welcomeTextLabel;
 	private JLabel logoLabel;
 	private JPanel buttonPanel;
-	private JPanel displayPanel;
 	private JButton createSyllabusButton;
 	private JButton fetchSyllabusButton;
 	private JButton listSyllabusButton;
 	private JButton exitButton;
-	//private CreateSyllabusPage createPage;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WelcomePage window = new WelcomePage();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
 	public WelcomePage() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 1120, 659);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.setResizable(false);
-		
-		//createPage = new CreateSyllabusPage();
-		
+		this.setLayout(null);
+
 		topPanel = new JPanel();
 		createTopPanel();
 		
 		buttonPanel = new JPanel();
 		createMenuPanel();
-		
-		displayPanel = new JPanel();
-		displayPanel.setLayout(null);
-		createDisplayPanel();
-		
-		
 	}
+
 	public void createSyllabusPage()
 	{
 		//CreateSyllabusPage createPage= new CreateSyllabusPage();
@@ -93,16 +65,17 @@ public class WelcomePage extends JPanel{
 	{
 		System.exit(0);
 	}
+
 	public void changeColor(JButton button, Color color)
 	{
 		button.setBackground(color);
 	}
-	
+
 	public void createTopPanel()
 	{
 		topPanel.setBackground(new Color(50, 80, 130));
-		topPanel.setBounds(0, 0, 1115, 132);
-		frame.getContentPane().add(topPanel);
+		topPanel.setBounds(0, 0, Values.screenWidth, 132);
+		this.add(topPanel);
 		topPanel.setLayout(null);
 		
 		welcomeTextLabel = new JLabel("WELCOME TO SYLLABUS EDITOR APP");
@@ -132,8 +105,8 @@ public class WelcomePage extends JPanel{
 	public void createMenuPanel()
 	{
 		buttonPanel.setBackground(new Color(205, 133, 63));
-		buttonPanel.setBounds(0, 132, 239, 496);
-		frame.getContentPane().add(buttonPanel);
+		buttonPanel.setBounds(0, 132, 239, Values.screenHeight - 132);
+		this.add(buttonPanel);
 		buttonPanel.setLayout(null);
 		
 		createSyllabusButton = new JButton("CREATE \r\n\r\r\nSYLLABUS");
@@ -218,12 +191,5 @@ public class WelcomePage extends JPanel{
 		exitButton.setBackground(new Color(211, 211, 211));
 		exitButton.setBounds(31, 384, 171, 48);
 		buttonPanel.add(exitButton);
-		
-
-	}
-	public void createDisplayPanel()
-	{
-		displayPanel.setBounds(238, 132, 875, 496);
-		frame.getContentPane().add(displayPanel);
 	}
 }

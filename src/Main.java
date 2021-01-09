@@ -1,4 +1,5 @@
 import pages.CreateSyllabusPage;
+import pages.WelcomePage;
 import res.Values;
 
 import javax.swing.*;
@@ -43,10 +44,7 @@ public class Main {
 
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // TODO: CreateSyllabusPage will be changed with WelcomePage
-        frame.add(new CreateSyllabusPage(), BorderLayout.CENTER);
-
+        frame.add(new WelcomePage(), BorderLayout.CENTER);
         frame.setVisible(true);
     }
 }
