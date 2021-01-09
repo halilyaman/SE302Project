@@ -67,13 +67,13 @@ public class WelcomePage extends JPanel{
 
 	public void createTopPanel()
 	{
-		topPanel.setBackground(new Color(50, 80, 130));
+		topPanel.setBackground(Values.AppColors.indigo);
 		topPanel.setBounds(0, 0, Values.screenWidth, 132);
 		this.add(topPanel);
 		topPanel.setLayout(null);
 		
 		welcomeTextLabel = new JLabel("WELCOME TO SYLLABUS EDITOR APP");
-		welcomeTextLabel.setForeground(new Color(224, 255, 255));
+		welcomeTextLabel.setForeground(Values.AppColors.greyLight);
 		welcomeTextLabel.setFont(new Font("Monospaced", Font.BOLD, 35));
 		welcomeTextLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeTextLabel.setBounds(344, 52, 666, 41);
@@ -98,7 +98,7 @@ public class WelcomePage extends JPanel{
 	
 	public void createMenuPanel()
 	{
-		buttonPanel.setBackground(new Color(205, 133, 63));
+		buttonPanel.setBackground(Values.AppColors.primaryColor);
 		buttonPanel.setBounds(0, 132, 239, Values.screenHeight - 132);
 		this.add(buttonPanel);
 		buttonPanel.setLayout(null);
@@ -107,11 +107,11 @@ public class WelcomePage extends JPanel{
 		createSyllabusButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				changeColor(createSyllabusButton,new Color(128, 128, 128));
+				changeColor(createSyllabusButton, Values.AppColors.grey);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				changeColor(createSyllabusButton,new Color(211, 211, 211));
+				changeColor(createSyllabusButton, Values.AppColors.greyLight);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -121,7 +121,7 @@ public class WelcomePage extends JPanel{
 			}
 		});
 		createSyllabusButton.setFont(new Font("Palatino Linotype", Font.BOLD, 14));
-		createSyllabusButton.setBackground(new Color(211, 211, 211));
+		createSyllabusButton.setBackground(Values.AppColors.greyLight);
 		createSyllabusButton.setBounds(31, 60, 171, 48);
 		buttonPanel.add(createSyllabusButton);
 		
@@ -129,11 +129,11 @@ public class WelcomePage extends JPanel{
 		fetchSyllabusButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				changeColor(fetchSyllabusButton,new Color(128, 128, 128));
+				changeColor(fetchSyllabusButton, Values.AppColors.grey);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				changeColor(fetchSyllabusButton,new Color(211, 211, 211));
+				changeColor(fetchSyllabusButton, Values.AppColors.greyLight);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -141,7 +141,7 @@ public class WelcomePage extends JPanel{
 			}
 		});
 		fetchSyllabusButton.setFont(new Font("Palatino Linotype", Font.BOLD, 14));
-		fetchSyllabusButton.setBackground(new Color(211, 211, 211));
+		fetchSyllabusButton.setBackground(Values.AppColors.greyLight);
 		fetchSyllabusButton.setBounds(31, 168, 171, 48);
 		buttonPanel.add(fetchSyllabusButton);
 		
@@ -149,11 +149,11 @@ public class WelcomePage extends JPanel{
 		listSyllabusButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				changeColor(listSyllabusButton,new Color(128, 128, 128));
+				changeColor(listSyllabusButton, Values.AppColors.grey);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				changeColor(listSyllabusButton,new Color(211, 211, 211));
+				changeColor(listSyllabusButton, Values.AppColors.greyLight);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -162,7 +162,7 @@ public class WelcomePage extends JPanel{
 			}
 		});
 		listSyllabusButton.setFont(new Font("Palatino Linotype", Font.BOLD, 15));
-		listSyllabusButton.setBackground(new Color(211, 211, 211));
+		listSyllabusButton.setBackground(Values.AppColors.greyLight);
 		listSyllabusButton.setBounds(31, 276, 171, 48);
 		buttonPanel.add(listSyllabusButton);
 		
@@ -170,11 +170,11 @@ public class WelcomePage extends JPanel{
 		exitButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				changeColor(exitButton,new Color(128, 128, 128));
+				changeColor(exitButton, Values.AppColors.grey);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				changeColor(exitButton,new Color(211, 211, 211));
+				changeColor(exitButton, Values.AppColors.greyLight);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -182,7 +182,7 @@ public class WelcomePage extends JPanel{
 			}
 		});
 		exitButton.setFont(new Font("Palatino Linotype", Font.BOLD, 17));
-		exitButton.setBackground(new Color(211, 211, 211));
+		exitButton.setBackground(Values.AppColors.greyLight);
 		exitButton.setBounds(31, 384, 171, 48);
 		buttonPanel.add(exitButton);
 	}

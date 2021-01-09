@@ -15,6 +15,10 @@ public class Values {
         final static public Color backgroundColor = new Color(0xffffffff);
         final static public Color textColor = new Color(0xff002699);
         final static public Color borderColor = new Color(0xffccd9ff);
+        final static public Color primaryColor = new Color(205, 133, 63);
+        final static public Color indigo = new Color(50, 80, 130);
+        final static public Color grey = new Color(128, 128, 128);
+        final static public Color greyLight = new Color(211, 211, 211);
     }
 
     static public class SyllabusValues {
