@@ -83,7 +83,7 @@ public class WelcomePage extends JPanel{
 		logoLabel.setBounds(50, 5, 120, 120);
 		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File("assets/ic_logo.png"));
+			img = ImageIO.read(new File("assets/ieuLogo2.png"));
 			Image scaledImage = img.getScaledInstance(
 					logoLabel.getWidth(),
 					logoLabel.getHeight(),
