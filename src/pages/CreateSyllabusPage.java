@@ -68,6 +68,7 @@ public class CreateSyllabusPage extends JPanel {
         buildFormPanel();
         JPanel innerPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(innerPanel);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         innerPanel.add(formPanel);
         this.add(scrollPane, BorderLayout.CENTER);
     }
