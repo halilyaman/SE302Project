@@ -8,7 +8,8 @@ public class Values {
     final static public int screenWidth = 1280;
     final static public int formWidth = 800;
     final static public int formHeightSmall = 30;
-    final static public int formHeightMedium = 60;
+    final static public int formHeightMedium = 38;
+    final static public int formHeightLarge = 60;
     final static public int paddingSmall = 10;
 
     static public class AppColors {

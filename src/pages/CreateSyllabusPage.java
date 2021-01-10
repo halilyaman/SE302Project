@@ -11,6 +11,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class CreateSyllabusPage extends JPanel {
     final private JPanel topPanel;
@@ -33,6 +34,8 @@ public class CreateSyllabusPage extends JPanel {
     final private HintTextField learningOutcomesField;
     final private HintTextField courseDescriptionField;
     final private JComboBox<String> courseCategoryComboBox;
+    ArrayList<Component[]> weeklySubjectItems = new ArrayList<>();
+    private JPanel weeklySubjectsPanel;
 
     public CreateSyllabusPage() {
         // initializations
@@ -109,6 +112,8 @@ public class CreateSyllabusPage extends JPanel {
         formPanel.add(buildFourthPanel());
         formPanel.add(buildFifthPanel());
         formPanel.add(buildTitle("WEEKLY SUBJECTS AND RELATED PREPARATION STUDIES"));
+        weeklySubjectsPanel = buildWeeklySubjectsPanel();
+        formPanel.add(weeklySubjectsPanel);
     }
 
     private JPanel buildFirstPanel() {
@@ -116,7 +121,7 @@ public class CreateSyllabusPage extends JPanel {
         JPanel firstPanel = new JPanel(new GridLayout(1, 2));
         firstPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
         firstPanel.setBackground(Values.AppColors.backgroundColor);
-        firstPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium));
+        firstPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightLarge));
         firstPanel.setBorder(GuiUtils.emptyBorder);
 
         // set first panel content
@@ -224,7 +229,7 @@ public class CreateSyllabusPage extends JPanel {
         // create third panel
         JPanel thirdPanel = new JPanel(new GridLayout(7, 2));
         thirdPanel.setBackground(Values.AppColors.backgroundColor);
-        thirdPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium * 5));
+        thirdPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightLarge * 5));
         thirdPanel.setBorder(GuiUtils.emptyBorder);
 
         // create third panel content
@@ -277,7 +282,7 @@ public class CreateSyllabusPage extends JPanel {
         // create fourth panel
         JPanel fourthPanel = new JPanel(new GridLayout(3, 2));
         fourthPanel.setBackground(Values.AppColors.backgroundColor);
-        fourthPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium * 3));
+        fourthPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightLarge * 3));
         fourthPanel.setBorder(GuiUtils.emptyBorder);
 
         // create fourth panel content
@@ -300,7 +305,7 @@ public class CreateSyllabusPage extends JPanel {
         // create fifth panel
         JPanel fifthPanel = new JPanel(new GridLayout(1, 2));
         fifthPanel.setBackground(Values.AppColors.backgroundColor);
-        fifthPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium));
+        fifthPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightLarge));
         fifthPanel.setBorder(GuiUtils.emptyBorder);
 
         // create fifth panel content
@@ -328,5 +333,96 @@ public class CreateSyllabusPage extends JPanel {
         titleLabel.setAlignmentX(JLabel.WEST);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         return titleLabel;
+    }
+
+    private JPanel buildWeeklySubjectsPanel() {
+        // create weekly subjects panel
+        JPanel weeklySubjectsPanel = new JPanel();
+        BoxLayout boxLayout = new BoxLayout(weeklySubjectsPanel, BoxLayout.Y_AXIS);
+        weeklySubjectsPanel.setLayout(boxLayout);
+        weeklySubjectsPanel.setBackground(Values.AppColors.backgroundColor);
+        weeklySubjectsPanel.setBorder(GuiUtils.emptyBorder);
+
+        // create buttons of weekly subjects panel
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton addWeekButton = new JButton("Add New Week");
+        addWeekButton.addActionListener(e -> addWeeklySubjectsItem());
+        JButton removeWeekButton = new JButton("Remove Week");
+        removeWeekButton.addActionListener(e -> removeLastWeeklySubjectsItem());
+        buttonsPanel.add(addWeekButton);
+        buttonsPanel.add(removeWeekButton);
+
+        if (weeklySubjectItems.size() == 0) {
+            JTextField subjectsField = GuiUtils.buildTextFieldWithBorder();
+            JTextField preparationField = GuiUtils.buildTextFieldWithBorder();
+
+            // configure content of weekly subject item panel
+            Dimension textFieldSize = new Dimension(300, Values.formHeightMedium);
+            subjectsField.setPreferredSize(textFieldSize);
+            preparationField.setPreferredSize(textFieldSize);
+
+            Component[] components = new Component[]{subjectsField, preparationField};
+            weeklySubjectItems.add(components);
+        }
+
+        // create content panel
+        JPanel contentPanel = new JPanel(new GridLayout(weeklySubjectItems.size() + 1, 3));
+
+        // create titles
+        JLabel weekLabel = GuiUtils.buildLabelWithBorder("Week");
+        JLabel subjectsLabel = GuiUtils.buildLabelWithBorder("Subjects");
+        JLabel preparationLabel = GuiUtils.buildLabelWithBorder("Related Preparation");
+
+        // set titles
+        contentPanel.add(weekLabel);
+        contentPanel.add(subjectsLabel);
+        contentPanel.add(preparationLabel);
+
+        // set weekly subjects list items
+        for (int i = 0; i < weeklySubjectItems.size(); i++) {
+            JLabel weekNumberLabel = GuiUtils.buildLabelWithBorder(Integer.toString(i+1));
+            contentPanel.add(weekNumberLabel);
+            contentPanel.add(weeklySubjectItems.get(i)[0]);
+            contentPanel.add(weeklySubjectItems.get(i)[1]);
+        }
+
+        // set content of weekly subjects panel
+        weeklySubjectsPanel.add(buttonsPanel);
+        weeklySubjectsPanel.add(contentPanel);
+
+        return weeklySubjectsPanel;
+    }
+
+    private void addWeeklySubjectsItem() {
+        JTextField subjectsField = GuiUtils.buildTextFieldWithBorder();
+        JTextField preparationField = GuiUtils.buildTextFieldWithBorder();
+
+        // configure content of weekly subject item
+        Dimension textFieldSize = new Dimension(300, Values.formHeightMedium);
+        subjectsField.setPreferredSize(textFieldSize);
+        preparationField.setPreferredSize(textFieldSize);
+
+        Component[] components = new Component[]{subjectsField, preparationField};
+        weeklySubjectItems.add(components);
+
+        // update ui
+        updateWeeklySubjectsPanel();
+    }
+
+    private void updateWeeklySubjectsPanel() {
+        formPanel.remove(weeklySubjectsPanel);
+        weeklySubjectsPanel = buildWeeklySubjectsPanel();
+        formPanel.add(weeklySubjectsPanel, 6);
+        formPanel.updateUI();
+    }
+
+    private void removeLastWeeklySubjectsItem() {
+        // remove last weekly subject item
+        if (weeklySubjectItems.size() > 1) {
+            weeklySubjectItems.remove(weeklySubjectItems.size() - 1);
+        }
+
+        // update ui
+        updateWeeklySubjectsPanel();
     }
 }
