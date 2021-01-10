@@ -1,17 +1,22 @@
 package pages;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import res.Values;
 import utils.GuiUtils;
+import utils.Navigator;
 
 public class FetchSyllabusPage extends JPanel {
-    private JPanel topPanel;
-    private JPanel urlPanel;
-    private JTextField courseUrl;
+    final private JPanel topPanel;
+    final private JPanel urlPanel;
+    final private JTextField courseUrl;
 
     public FetchSyllabusPage() {
         topPanel = new JPanel();
         courseUrl = new JTextField();
+        urlPanel = new JPanel(new GridLayout(1, 2));
 
         this.setLayout(new BorderLayout());
         this.setBackground(Values.AppColors.backgroundColor);
@@ -21,31 +26,30 @@ public class FetchSyllabusPage extends JPanel {
 
         setURLPanel();
         this.add(urlPanel, BorderLayout.CENTER);
-
     }
 
     private void setTopPanel() {
-        JPanel childTopPanel = new JPanel();
-        childTopPanel.setBackground(Values.AppColors.textColor);
-        childTopPanel.setPreferredSize(new Dimension(Values.formWidth - 200, Values.formHeightSmall));
-        childTopPanel.setLayout(new GridLayout(1, 3));
+        topPanel.setLayout(new GridLayout(1, 3));
+        topPanel.setBackground(Values.AppColors.textColor);
+        topPanel.setPreferredSize(new Dimension(Values.formWidth - 200, Values.formHeightSmall));
 
         JButton backButton = new JButton("BACK");
+        backButton.addActionListener(e -> Navigator.pop());
         JButton saveButton = new JButton("IMPORT");
+
+        topPanel.add(backButton);
+        topPanel.add(saveButton);
     }
 
-    private JPanel setURLPanel() {
-        JPanel URLPanel = new JPanel(new GridLayout(1, 2));
-        URLPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
-        URLPanel.setBackground(Values.AppColors.backgroundColor);
-        URLPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium));
-        URLPanel.setBorder(GuiUtils.emptyBorder);
+    private void setURLPanel() {
+        urlPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        urlPanel.setBackground(Values.AppColors.backgroundColor);
+        urlPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium));
+        urlPanel.setBorder(GuiUtils.emptyBorder);
 
         JLabel courseNameLabel = GuiUtils.buildLabelWithBorder("Please type URL :");
-        URLPanel.add(courseNameLabel);
-        URLPanel.add(courseUrl);
-
-        return URLPanel;
+        urlPanel.add(courseNameLabel);
+        urlPanel.add(courseUrl);
     }
 }
 

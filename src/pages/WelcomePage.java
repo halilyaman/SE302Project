@@ -47,7 +47,7 @@ public class WelcomePage extends JPanel{
 	
 	public void fetchSyllabusPage()
 	{
-		//FetchSyllabusPage fetchPage= new FetchSyllabusPage();
+		Navigator.push(new FetchSyllabusPage());
 	}
 	
 	public void syllabusListPage()
