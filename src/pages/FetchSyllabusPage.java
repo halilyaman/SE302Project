@@ -3,29 +3,28 @@ import javax.swing.*;
 import java.awt.*;
 import res.Values;
 import utils.GuiUtils;
-import utils.Navigator;
 
 public class FetchSyllabusPage extends JPanel {
     private JPanel topPanel;
-    private JPanel URLPanel;
-    private JTextField courseURL;
+    private JPanel urlPanel;
+    private JTextField courseUrl;
 
     public FetchSyllabusPage() {
         topPanel = new JPanel();
-        courseURL = new JTextField();
+        courseUrl = new JTextField();
 
         this.setLayout(new BorderLayout());
         this.setBackground(Values.AppColors.backgroundColor);
 
-        settopPanel();
+        setTopPanel();
         this.add(topPanel, BorderLayout.NORTH);
 
         setURLPanel();
-        this.add(URLPanel, BorderLayout.CENTER);
+        this.add(urlPanel, BorderLayout.CENTER);
 
     }
 
-    private void settopPanel() {
+    private void setTopPanel() {
         JPanel childTopPanel = new JPanel();
         childTopPanel.setBackground(Values.AppColors.textColor);
         childTopPanel.setPreferredSize(new Dimension(Values.formWidth - 200, Values.formHeightSmall));
@@ -34,6 +33,7 @@ public class FetchSyllabusPage extends JPanel {
         JButton backButton = new JButton("BACK");
         JButton saveButton = new JButton("IMPORT");
     }
+
     private JPanel setURLPanel() {
         JPanel URLPanel = new JPanel(new GridLayout(1, 2));
         URLPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
@@ -43,7 +43,7 @@ public class FetchSyllabusPage extends JPanel {
 
         JLabel courseNameLabel = GuiUtils.buildLabelWithBorder("Please type URL :");
         URLPanel.add(courseNameLabel);
-        URLPanel.add(courseURL);
+        URLPanel.add(courseUrl);
 
         return URLPanel;
     }
