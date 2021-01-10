@@ -34,8 +34,10 @@ public class CreateSyllabusPage extends JPanel {
     final private HintTextField learningOutcomesField;
     final private HintTextField courseDescriptionField;
     final private JComboBox<String> courseCategoryComboBox;
-    ArrayList<Component[]> weeklySubjectItems = new ArrayList<>();
+    final private ArrayList<Component[]> weeklySubjectItems = new ArrayList<>();
     private JPanel weeklySubjectsPanel;
+    final private JTextField courseNotesField;
+    final private JTextField suggestedReadingsField;
 
     public CreateSyllabusPage() {
         // initializations
@@ -59,6 +61,8 @@ public class CreateSyllabusPage extends JPanel {
         learningOutcomesField = GuiUtils.buildTextFieldWithBorder();
         courseDescriptionField = GuiUtils.buildTextFieldWithBorder();
         courseCategoryComboBox = new JComboBox<>(Values.SyllabusValues.courseCategories);
+        courseNotesField = GuiUtils.buildTextFieldWithBorder();
+        suggestedReadingsField = GuiUtils.buildTextFieldWithBorder();
 
         // set layout
         this.setLayout(new BorderLayout());
@@ -114,6 +118,7 @@ public class CreateSyllabusPage extends JPanel {
         formPanel.add(buildTitle("WEEKLY SUBJECTS AND RELATED PREPARATION STUDIES"));
         weeklySubjectsPanel = buildWeeklySubjectsPanel();
         formPanel.add(weeklySubjectsPanel);
+        formPanel.add(buildSeventhPanel());
     }
 
     private JPanel buildFirstPanel() {
@@ -136,7 +141,7 @@ public class CreateSyllabusPage extends JPanel {
         // create second panel
         JPanel secondPanel = new JPanel(new GridLayout(2, 6));
         secondPanel.setBackground(Values.AppColors.backgroundColor);
-        secondPanel.setPreferredSize(new Dimension(Values.formWidth, 90));
+        secondPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightSmall * 3));
         secondPanel.setBorder(GuiUtils.emptyBorder);
 
         // create second panel content
@@ -424,5 +429,22 @@ public class CreateSyllabusPage extends JPanel {
 
         // update ui
         updateWeeklySubjectsPanel();
+    }
+
+    private JPanel buildSeventhPanel() {
+        JPanel seventhPanel = new JPanel(new GridLayout(2, 2));
+        seventhPanel.setBackground(Values.AppColors.backgroundColor);
+        seventhPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightSmall * 3));
+        seventhPanel.setBorder(GuiUtils.emptyBorder);
+
+        JLabel courseNotesLabel = GuiUtils.buildLabelWithBorder("Course Notes / Textbooks");
+        JLabel suggestedReadingsLabel = GuiUtils.buildLabelWithBorder("Suggested Readings / Materials");
+
+        seventhPanel.add(courseNotesLabel);
+        seventhPanel.add(courseNotesField);
+        seventhPanel.add(suggestedReadingsLabel);
+        seventhPanel.add(suggestedReadingsField);
+
+        return seventhPanel;
     }
 }
