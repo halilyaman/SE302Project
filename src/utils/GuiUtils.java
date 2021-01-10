@@ -5,6 +5,7 @@ import res.Values;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import java.awt.*;
 
 public class GuiUtils {
     final public static Border lineBorder = BorderFactory.createLineBorder(Values.AppColors.borderColor);
@@ -19,6 +20,13 @@ public class GuiUtils {
         JLabel courseNameLabel = new JLabel(text);
         courseNameLabel.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
         courseNameLabel.setForeground(Values.AppColors.textColor);
+        return courseNameLabel;
+    }
+
+    public static JLabel buildLabelWithBorder(String text, Color color) {
+        JLabel courseNameLabel = new JLabel(text);
+        courseNameLabel.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+        courseNameLabel.setForeground(color);
         return courseNameLabel;
     }
 

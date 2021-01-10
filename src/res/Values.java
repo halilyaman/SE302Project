@@ -20,6 +20,7 @@ public class Values {
         final static public Color indigo = new Color(50, 80, 130);
         final static public Color grey = new Color(128, 128, 128);
         final static public Color greyLight = new Color(211, 211, 211);
+        final static public Color black = Color.black;
     }
 
     static public class SyllabusValues {

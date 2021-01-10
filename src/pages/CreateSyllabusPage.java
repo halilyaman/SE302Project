@@ -11,6 +11,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class CreateSyllabusPage extends JPanel {
@@ -38,6 +40,9 @@ public class CreateSyllabusPage extends JPanel {
     private JPanel weeklySubjectsPanel;
     final private JTextField courseNotesField;
     final private JTextField suggestedReadingsField;
+    final private ArrayList<JTextField[]> evaluationSystemItems = new ArrayList<>();
+    final private JLabel totalNumber;
+    final private JLabel totalWeigthing;
 
     public CreateSyllabusPage() {
         // initializations
@@ -63,6 +68,8 @@ public class CreateSyllabusPage extends JPanel {
         courseCategoryComboBox = new JComboBox<>(Values.SyllabusValues.courseCategories);
         courseNotesField = GuiUtils.buildTextFieldWithBorder();
         suggestedReadingsField = GuiUtils.buildTextFieldWithBorder();
+        totalNumber = GuiUtils.buildLabelWithBorder("...");
+        totalWeigthing = GuiUtils.buildLabelWithBorder("...");
 
         // set layout
         this.setLayout(new BorderLayout());
@@ -91,12 +98,7 @@ public class CreateSyllabusPage extends JPanel {
         JButton exportButton = new JButton("EXPORT");
 
         // set listener for back button
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Navigator.pop();
-            }
-        });
+        backButton.addActionListener(e -> Navigator.pop());
 
         childTopPanel.add(backButton);
         childTopPanel.add(saveButton);
@@ -119,6 +121,8 @@ public class CreateSyllabusPage extends JPanel {
         weeklySubjectsPanel = buildWeeklySubjectsPanel();
         formPanel.add(weeklySubjectsPanel);
         formPanel.add(buildSeventhPanel());
+        formPanel.add(buildTitle("EVALUATION SYSTEM"));
+        formPanel.add(buildEvaluationSystemPanel());
     }
 
     private JPanel buildFirstPanel() {
@@ -332,12 +336,14 @@ public class CreateSyllabusPage extends JPanel {
         return fifthPanel;
     }
 
-    private JLabel buildTitle(final String title) {
+    private JPanel buildTitle(final String title) {
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        titlePanel.setBackground(Values.AppColors.backgroundColor);
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(new Font("Default", Font.BOLD, 20));
-        titleLabel.setAlignmentX(JLabel.WEST);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        return titleLabel;
+        titlePanel.add(titleLabel);
+        return titlePanel;
     }
 
     private JPanel buildWeeklySubjectsPanel() {
@@ -432,19 +438,136 @@ public class CreateSyllabusPage extends JPanel {
     }
 
     private JPanel buildSeventhPanel() {
+        // create seventh panel
         JPanel seventhPanel = new JPanel(new GridLayout(2, 2));
         seventhPanel.setBackground(Values.AppColors.backgroundColor);
         seventhPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightSmall * 3));
         seventhPanel.setBorder(GuiUtils.emptyBorder);
 
+        // create seventh panel labels
         JLabel courseNotesLabel = GuiUtils.buildLabelWithBorder("Course Notes / Textbooks");
         JLabel suggestedReadingsLabel = GuiUtils.buildLabelWithBorder("Suggested Readings / Materials");
 
+        // set seventh panel content
         seventhPanel.add(courseNotesLabel);
         seventhPanel.add(courseNotesField);
         seventhPanel.add(suggestedReadingsLabel);
         seventhPanel.add(suggestedReadingsField);
 
         return seventhPanel;
+    }
+
+    private JPanel buildEvaluationSystemPanel() {
+        // create evaluation system panel
+        JPanel evaluationSystemPanel = new JPanel(new GridLayout(13, 3));
+        evaluationSystemPanel.setBackground(Values.AppColors.backgroundColor);
+        evaluationSystemPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium * 13));
+        evaluationSystemPanel.setBorder(GuiUtils.emptyBorder);
+
+        // create evaluation system labels
+        JLabel semesterActivities = GuiUtils.buildLabelWithBorder("Semester Activities");
+        JLabel number = GuiUtils.buildLabelWithBorder("Number");
+        JLabel weigthing = GuiUtils.buildLabelWithBorder("Weigthing");
+
+        ArrayList<Component> labels = new ArrayList<>();
+        JLabel participation = GuiUtils.buildLabelWithBorder("Participation", Values.AppColors.black);
+        JLabel laboratory = GuiUtils.buildLabelWithBorder("Laboratory / Application", Values.AppColors.black);
+        JLabel fieldWork = GuiUtils.buildLabelWithBorder("Field Work", Values.AppColors.black);
+        JLabel quizzes = GuiUtils.buildLabelWithBorder("Quizzes / Studio Critiques", Values.AppColors.black);
+        JLabel homeworkAssignments = GuiUtils.buildLabelWithBorder("Homework / Assignments", Values.AppColors.black);
+        JLabel presentationJury = GuiUtils.buildLabelWithBorder("Presentation / Jury", Values.AppColors.black);
+        JLabel project = GuiUtils.buildLabelWithBorder("Project", Values.AppColors.black);
+        JLabel seminarWorkshop = GuiUtils.buildLabelWithBorder("Seminar / Workshop", Values.AppColors.black);
+        JLabel oralExams = GuiUtils.buildLabelWithBorder("Oral Exams", Values.AppColors.black);
+        JLabel midterm = GuiUtils.buildLabelWithBorder("Midterm", Values.AppColors.black);
+        JLabel finalExam = GuiUtils.buildLabelWithBorder("Final Exam", Values.AppColors.black);
+        labels.add(participation);
+        labels.add(laboratory);
+        labels.add(fieldWork);
+        labels.add(quizzes);
+        labels.add(homeworkAssignments);
+        labels.add(presentationJury);
+        labels.add(project);
+        labels.add(seminarWorkshop);
+        labels.add(oralExams);
+        labels.add(midterm);
+        labels.add(finalExam);
+        JLabel total = GuiUtils.buildLabelWithBorder("Total");
+
+        // set content
+        evaluationSystemPanel.add(semesterActivities);
+        evaluationSystemPanel.add(number);
+        evaluationSystemPanel.add(weigthing);
+        // set text fields
+        for (int i = 0; i < 11 ; i++) {
+            JTextField numberField = GuiUtils.buildTextFieldWithBorder();
+            JTextField weightingField = GuiUtils.buildTextFieldWithBorder();
+            numberField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    calculateTotalNumberAndWeighting();
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    calculateTotalNumberAndWeighting();
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    calculateTotalNumberAndWeighting();
+                }
+            });
+            weightingField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    calculateTotalNumberAndWeighting();
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    calculateTotalNumberAndWeighting();
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    calculateTotalNumberAndWeighting();
+                }
+            });
+            JTextField[] textFields = new JTextField[]{numberField, weightingField};
+            evaluationSystemItems.add(textFields);
+
+            evaluationSystemPanel.add(labels.get(i));
+            evaluationSystemPanel.add(numberField);
+            evaluationSystemPanel.add(weightingField);
+        }
+        evaluationSystemPanel.add(total);
+        evaluationSystemPanel.add(totalNumber);
+        evaluationSystemPanel.add(totalWeigthing);
+
+        return evaluationSystemPanel;
+    }
+
+    private void calculateTotalNumberAndWeighting() {
+        int totalNumber = 0;
+        int totalWeigthing = 0;
+        for (JTextField[] evaluationSystemItem : evaluationSystemItems) {
+            try {
+                int number = Integer.parseInt(evaluationSystemItem[0].getText());
+                int weigthing = Integer.parseInt(evaluationSystemItem[1].getText());
+                if (number >= 0) {
+                    totalNumber += number;
+                    totalWeigthing += number * weigthing;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (totalNumber > 0 && totalWeigthing > 0) {
+            this.totalNumber.setText(Integer.toString(totalNumber));
+            this.totalWeigthing.setText(Integer.toString(totalWeigthing));
+            this.totalNumber.updateUI();
+            this.totalWeigthing.updateUI();
+        }
     }
 }
