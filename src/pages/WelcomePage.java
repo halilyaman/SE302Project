@@ -52,7 +52,7 @@ public class WelcomePage extends JPanel{
 	
 	public void syllabusListPage()
 	{
-		//SyllabusListPage listPage= new SyllabusListPage();
+		Navigator.push(new ListSyllabusPage());
 	}
 	
 	public void exitProgram()
