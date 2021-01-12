@@ -558,16 +558,20 @@ public class CreateSyllabusPage extends JPanel {
                 if (number >= 0) {
                     totalNumber += number;
                     totalWeigthing += number * weigthing;
+                    System.out.println("Added");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                // no need to handle this case
             }
         }
         if (totalNumber > 0 && totalWeigthing > 0) {
             this.totalNumber.setText(Integer.toString(totalNumber));
             this.totalWeigthing.setText(Integer.toString(totalWeigthing));
-            this.totalNumber.updateUI();
-            this.totalWeigthing.updateUI();
+        } else {
+            this.totalNumber.setText("...");
+            this.totalWeigthing.setText("...");
         }
+        this.totalNumber.updateUI();
+        this.totalWeigthing.updateUI();
     }
 }
