@@ -35,9 +35,9 @@ public class ListSyllabusPage extends JPanel {
     }
 
     private void setTopPanel(){
-        topPanel.setBackground(Values.AppColors.textColor);
-        topPanel.setPreferredSize(new Dimension(Values.formWidth-200,Values.formHeightSmall));
-        topPanel.setLayout(new GridLayout(1,3));
+        topPanel.setBackground(Values.AppColors.borderColor);
+        topPanel.setPreferredSize(new Dimension(Values.formWidth-200,80));
+        topPanel.setLayout(new GridLayout(2,3));
 
         JLabel searchFieldLabel = new JLabel("Please type a course information for search");
         topPanel.add(searchFieldLabel);
@@ -55,8 +55,8 @@ public class ListSyllabusPage extends JPanel {
 
     private void setBottomPanel(){
         bottomPanel.setBackground(Values.AppColors.backgroundColor);
-        bottomPanel.setPreferredSize(new Dimension(Values.formWidth-200,Values.formHeightSmall));
-        bottomPanel.setLayout(new GridLayout(5,3));
+        bottomPanel.setPreferredSize(new Dimension(Values.formWidth-200,40));
+        bottomPanel.setLayout(new GridLayout(1,2));
 
         JButton backButton = new JButton("BACK");
         backButton.addActionListener(new ActionListener() {
@@ -76,7 +76,7 @@ public class ListSyllabusPage extends JPanel {
     }
 
     private void setListPanel(){
-        listPanel.setBackground(Values.AppColors.backgroundColor);
+        listPanel.setBackground(Values.AppColors.grey);
         listPanel.setPreferredSize(new Dimension(Values.formWidth-200,Values.formHeightSmall));
         listPanel.setLayout(new GridLayout(3,3));
     }
