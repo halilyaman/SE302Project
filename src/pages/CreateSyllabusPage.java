@@ -9,10 +9,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class CreateSyllabusPage extends JPanel {
@@ -40,9 +36,11 @@ public class CreateSyllabusPage extends JPanel {
     private JPanel weeklySubjectsPanel;
     final private JTextField courseNotesField;
     final private JTextField suggestedReadingsField;
-    final private ArrayList<JTextField[]> evaluationSystemItems = new ArrayList<>();
+    final private ArrayList<JTextField[]> evaluationSystemFields = new ArrayList<>();
     final private JLabel totalNumber;
     final private JLabel totalWeigthing;
+    final private ArrayList<Component[]> ectsWorkloadFields = new ArrayList<>();
+    final private JLabel totalWorkload;
 
     public CreateSyllabusPage() {
         // initializations
@@ -70,6 +68,7 @@ public class CreateSyllabusPage extends JPanel {
         suggestedReadingsField = GuiUtils.buildTextFieldWithBorder();
         totalNumber = GuiUtils.buildLabelWithBorder("...");
         totalWeigthing = GuiUtils.buildLabelWithBorder("...");
+        totalWorkload = GuiUtils.buildLabelWithBorder("...");
 
         // set layout
         this.setLayout(new BorderLayout());
@@ -123,6 +122,8 @@ public class CreateSyllabusPage extends JPanel {
         formPanel.add(buildSeventhPanel());
         formPanel.add(buildTitle("EVALUATION SYSTEM"));
         formPanel.add(buildEvaluationSystemPanel());
+        formPanel.add(buildTitle("ECTS / WORKLOAD TABLE"));
+        formPanel.add(buildEctsWorkloadTablePanel());
     }
 
     private JPanel buildFirstPanel() {
@@ -468,7 +469,6 @@ public class CreateSyllabusPage extends JPanel {
         JLabel semesterActivities = GuiUtils.buildLabelWithBorder("Semester Activities");
         JLabel number = GuiUtils.buildLabelWithBorder("Number");
         JLabel weigthing = GuiUtils.buildLabelWithBorder("Weigthing");
-
         ArrayList<Component> labels = new ArrayList<>();
         JLabel participation = GuiUtils.buildLabelWithBorder("Participation", Values.AppColors.black);
         JLabel laboratory = GuiUtils.buildLabelWithBorder("Laboratory / Application", Values.AppColors.black);
@@ -535,7 +535,7 @@ public class CreateSyllabusPage extends JPanel {
                 }
             });
             JTextField[] textFields = new JTextField[]{numberField, weightingField};
-            evaluationSystemItems.add(textFields);
+            evaluationSystemFields.add(textFields);
 
             evaluationSystemPanel.add(labels.get(i));
             evaluationSystemPanel.add(numberField);
@@ -551,14 +551,13 @@ public class CreateSyllabusPage extends JPanel {
     private void calculateTotalNumberAndWeighting() {
         int totalNumber = 0;
         int totalWeigthing = 0;
-        for (JTextField[] evaluationSystemItem : evaluationSystemItems) {
+        for (JTextField[] evaluationSystemItem : evaluationSystemFields) {
             try {
                 int number = Integer.parseInt(evaluationSystemItem[0].getText());
                 int weigthing = Integer.parseInt(evaluationSystemItem[1].getText());
                 if (number >= 0) {
                     totalNumber += number;
                     totalWeigthing += number * weigthing;
-                    System.out.println("Added");
                 }
             } catch (Exception e) {
                 // no need to handle this case
@@ -573,5 +572,139 @@ public class CreateSyllabusPage extends JPanel {
         }
         this.totalNumber.updateUI();
         this.totalWeigthing.updateUI();
+    }
+
+    private JPanel buildEctsWorkloadTablePanel() {
+        // create ects workload panel
+        JPanel ectsWorkloadPanel = new JPanel(new GridLayout(14, 4));
+        ectsWorkloadPanel.setBackground(Values.AppColors.backgroundColor);
+        ectsWorkloadPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium * 17));
+        ectsWorkloadPanel.setBorder(GuiUtils.emptyBorder);
+
+        // create ects / workload table labels
+        JLabel semesterActivities = GuiUtils.buildLabelWithBorder("Semester Activities");
+        JLabel number = GuiUtils.buildLabelWithBorder("Number");
+        JLabel duration = GuiUtils.buildLabelWithBorder("Duration(Hours)");
+        JLabel workload = GuiUtils.buildLabelWithBorder("Workload");
+        ArrayList<Component> labels = new ArrayList<>();
+        JLabel theoreticalHours = GuiUtils.buildLabelWithBorder("<html>Theoretical Course Hours<br/><p style = \"font-size:8px\">(Including exam week: 16 x total hours)</p></html>", Values.AppColors.black);
+        JLabel labHours = GuiUtils.buildLabelWithBorder("<html>Laboratory / Application Hours<br/><p style = \"font-size:8px\">(Including exam week: 16 x total hours)</p></html>", Values.AppColors.black);
+        JLabel studyHours = GuiUtils.buildLabelWithBorder("Study Hours Out of Class", Values.AppColors.black);
+        JLabel fieldWork = GuiUtils.buildLabelWithBorder("Field Work", Values.AppColors.black);
+        JLabel quizzes = GuiUtils.buildLabelWithBorder("Quizzes / Studio Critiques", Values.AppColors.black);
+        JLabel homeworks = GuiUtils.buildLabelWithBorder("Homework / Assignments", Values.AppColors.black);
+        JLabel presentation = GuiUtils.buildLabelWithBorder("Presentation / Jury", Values.AppColors.black);
+        JLabel project = GuiUtils.buildLabelWithBorder("Project", Values.AppColors.black);
+        JLabel seminar = GuiUtils.buildLabelWithBorder("Seminar / Workshop", Values.AppColors.black);
+        JLabel oralExam = GuiUtils.buildLabelWithBorder("Oral Exam", Values.AppColors.black);
+        JLabel midterms = GuiUtils.buildLabelWithBorder("Midterms", Values.AppColors.black);
+        JLabel finalExam = GuiUtils.buildLabelWithBorder("Final Exam", Values.AppColors.black);
+        labels.add(theoreticalHours);
+        labels.add(labHours);
+        labels.add(studyHours);
+        labels.add(fieldWork);
+        labels.add(quizzes);
+        labels.add(homeworks);
+        labels.add(presentation);
+        labels.add(project);
+        labels.add(seminar);
+        labels.add(oralExam);
+        labels.add(midterms);
+        labels.add(finalExam);
+        JLabel total = GuiUtils.buildLabelWithBorder("Total");
+
+        // set content
+        ectsWorkloadPanel.add(semesterActivities);
+        ectsWorkloadPanel.add(number);
+        ectsWorkloadPanel.add(duration);
+        ectsWorkloadPanel.add(workload);
+
+        // set text fields
+        for (int i = 0; i < 11 ; i++) {
+            JTextField numberField = GuiUtils.buildTextFieldWithBorder();
+            JTextField durationField = GuiUtils.buildTextFieldWithBorder();
+            JLabel workloadLabel = GuiUtils.buildLabelWithBorder("...");
+            numberField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    updateWorkload(numberField, durationField, workloadLabel);
+                    updateTotalWorkload();
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    updateWorkload(numberField, durationField, workloadLabel);
+                    updateTotalWorkload();
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    updateWorkload(numberField, durationField, workloadLabel);
+                    updateTotalWorkload();
+                }
+            });
+            durationField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    updateWorkload(numberField, durationField, workloadLabel);
+                    updateTotalWorkload();
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    updateWorkload(numberField, durationField, workloadLabel);
+                    updateTotalWorkload();
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    updateWorkload(numberField, durationField, workloadLabel);
+                    updateTotalWorkload();
+                }
+            });
+            Component[] components = new Component[]{numberField, durationField, workloadLabel};
+            ectsWorkloadFields.add(components);
+
+            ectsWorkloadPanel.add(labels.get(i));
+            ectsWorkloadPanel.add(numberField);
+            ectsWorkloadPanel.add(durationField);
+            ectsWorkloadPanel.add(workloadLabel);
+        }
+        ectsWorkloadPanel.add(total);
+        ectsWorkloadPanel.add(GuiUtils.buildLabelWithBorder(""));
+        ectsWorkloadPanel.add(GuiUtils.buildLabelWithBorder(""));
+        ectsWorkloadPanel.add(totalWorkload);
+
+        return ectsWorkloadPanel;
+    }
+
+    private void updateWorkload(JTextField numberField, JTextField durationField, JLabel workload) {
+        try {
+            int number = Integer.parseInt(numberField.getText());
+            int duration = Integer.parseInt(durationField.getText());
+            workload.setText(Integer.toString(number * duration));
+            workload.updateUI();
+        } catch(Exception e) {
+            workload.setText("...");
+            workload.updateUI();
+        }
+    }
+
+    private void updateTotalWorkload() {
+        int totalWorkload = 0;
+        for (Component[] fields : ectsWorkloadFields) {
+            JLabel workloadLabel = (JLabel)fields[2];
+            try {
+                totalWorkload += Integer.parseInt(workloadLabel.getText());
+            } catch (Exception e) {
+                // no need to handle this case
+            }
+        }
+        if (totalWorkload == 0) {
+            this.totalWorkload.setText("...");
+        } else {
+            this.totalWorkload.setText(Integer.toString(totalWorkload));
+        }
+        this.totalWorkload.updateUI();
     }
 }
