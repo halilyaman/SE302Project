@@ -41,6 +41,8 @@ public class CreateSyllabusPage extends JPanel {
     final private JLabel totalWeigthing;
     final private ArrayList<Component[]> ectsWorkloadFields = new ArrayList<>();
     final private JLabel totalWorkload;
+    private JPanel outcomesPanel;
+    final private ArrayList<Component[]> outcomeItems = new ArrayList<>();
 
     public CreateSyllabusPage() {
         // initializations
@@ -124,6 +126,9 @@ public class CreateSyllabusPage extends JPanel {
         formPanel.add(buildEvaluationSystemPanel());
         formPanel.add(buildTitle("ECTS / WORKLOAD TABLE"));
         formPanel.add(buildEctsWorkloadTablePanel());
+        formPanel.add(buildTitle("COURSE LEARNING OUTCOMES AND PROGRAM QUALIFICATIONS RELATIONSHIP"));
+        outcomesPanel = buildOutcomesPanel();
+        formPanel.add(outcomesPanel);
     }
 
     private JPanel buildFirstPanel() {
@@ -421,13 +426,6 @@ public class CreateSyllabusPage extends JPanel {
         updateWeeklySubjectsPanel();
     }
 
-    private void updateWeeklySubjectsPanel() {
-        formPanel.remove(weeklySubjectsPanel);
-        weeklySubjectsPanel = buildWeeklySubjectsPanel();
-        formPanel.add(weeklySubjectsPanel, 6);
-        formPanel.updateUI();
-    }
-
     private void removeLastWeeklySubjectsItem() {
         // remove last weekly subject item
         if (weeklySubjectItems.size() > 1) {
@@ -436,6 +434,13 @@ public class CreateSyllabusPage extends JPanel {
 
         // update ui
         updateWeeklySubjectsPanel();
+    }
+
+    private void updateWeeklySubjectsPanel() {
+        formPanel.remove(weeklySubjectsPanel);
+        weeklySubjectsPanel = buildWeeklySubjectsPanel();
+        formPanel.add(weeklySubjectsPanel, 6);
+        formPanel.updateUI();
     }
 
     private JPanel buildSeventhPanel() {
@@ -576,7 +581,7 @@ public class CreateSyllabusPage extends JPanel {
 
     private JPanel buildEctsWorkloadTablePanel() {
         // create ects workload panel
-        JPanel ectsWorkloadPanel = new JPanel(new GridLayout(14, 4));
+        JPanel ectsWorkloadPanel = new JPanel(new GridLayout(13, 4));
         ectsWorkloadPanel.setBackground(Values.AppColors.backgroundColor);
         ectsWorkloadPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium * 17));
         ectsWorkloadPanel.setBorder(GuiUtils.emptyBorder);
@@ -706,5 +711,96 @@ public class CreateSyllabusPage extends JPanel {
             this.totalWorkload.setText(Integer.toString(totalWorkload));
         }
         this.totalWorkload.updateUI();
+    }
+
+    private JPanel buildOutcomesPanel() {
+        // create weekly subjects panel
+        JPanel outcomesPanel = new JPanel();
+        BoxLayout boxLayout = new BoxLayout(outcomesPanel, BoxLayout.Y_AXIS);
+        outcomesPanel.setLayout(boxLayout);
+        outcomesPanel.setBackground(Values.AppColors.backgroundColor);
+        outcomesPanel.setBorder(GuiUtils.emptyBorder);
+
+        // create buttons of weekly subjects panel
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton addOutcomeButton = new JButton("Add New Outcome");
+        addOutcomeButton.addActionListener((event) -> addOutcomeItem());
+        JButton removeOutcomeButton = new JButton("Remove Outcome");
+        removeOutcomeButton.addActionListener((event) -> removeLastOutcomeItem());
+        buttonsPanel.add(addOutcomeButton);
+        buttonsPanel.add(removeOutcomeButton);
+
+        if (outcomeItems.size() == 0) {
+            JTextField outcomeField = GuiUtils.buildTextFieldWithBorder();
+            JTextField contributionField = GuiUtils.buildTextFieldWithBorder();
+
+            // configure content of outcome contribution item
+            Dimension textFieldSize = new Dimension(300, Values.formHeightMedium);
+            outcomeField.setPreferredSize(textFieldSize);
+            contributionField.setPreferredSize(textFieldSize);
+
+            Component[] components = new Component[]{outcomeField, contributionField};
+            outcomeItems.add(components);
+        }
+
+        // create content panel
+        JPanel contentPanel = new JPanel(new GridLayout(outcomeItems.size() + 1, 3));
+
+        // create titles
+        JLabel outcomeNumberLabel = GuiUtils.buildLabelWithBorder("#");
+        JLabel outcomeLabel = GuiUtils.buildLabelWithBorder("Program Competencies / Outcomes");
+        JLabel contributionLevelLabel = GuiUtils.buildLabelWithBorder("Contribution Level (1 - 5)");
+
+        // set titles
+        contentPanel.add(outcomeNumberLabel);
+        contentPanel.add(outcomeLabel);
+        contentPanel.add(contributionLevelLabel);
+
+        // set outcome list items
+        for (int i = 0; i < outcomeItems.size(); i++) {
+            JLabel outcomeNumber = GuiUtils.buildLabelWithBorder(Integer.toString(i+1));
+            contentPanel.add(outcomeNumber);
+            contentPanel.add(outcomeItems.get(i)[0]);
+            contentPanel.add(outcomeItems.get(i)[1]);
+        }
+
+        // set content of outcomes panel
+        outcomesPanel.add(buttonsPanel);
+        outcomesPanel.add(contentPanel);
+
+        return outcomesPanel;
+    }
+
+    private void addOutcomeItem() {
+        JTextField outcomeField = GuiUtils.buildTextFieldWithBorder();
+        JTextField contributionField = GuiUtils.buildTextFieldWithBorder();
+
+        // configure content of outcome item
+        Dimension textFieldSize = new Dimension(300, Values.formHeightMedium);
+        outcomeField.setPreferredSize(textFieldSize);
+        contributionField.setPreferredSize(textFieldSize);
+
+        Component[] components = new Component[]{outcomeField, contributionField};
+        outcomeItems.add(components);
+
+        // update ui
+        updateOutcomesPanel();
+    }
+
+    private void removeLastOutcomeItem() {
+        // remove last weekly subject item
+        if (outcomeItems.size() > 1) {
+            outcomeItems.remove(outcomeItems.size() - 1);
+        }
+
+        // update ui
+        updateOutcomesPanel();
+    }
+
+    private void updateOutcomesPanel() {
+        formPanel.remove(outcomesPanel);
+        outcomesPanel = buildOutcomesPanel();
+        formPanel.add(outcomesPanel, 13);
+        formPanel.updateUI();
     }
 }
