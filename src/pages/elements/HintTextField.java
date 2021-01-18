@@ -18,26 +18,14 @@ public class HintTextField extends JTextField implements FocusListener {
 
     @Override
     public void focusGained(FocusEvent e) {
-        try {
-            String content = this.getDocument().getText(0, 1);
-            if(content.isBlank() || content.equals(".")) {
-                super.setText("");
-                showingHint = false;
-            }
-        } catch(Exception ex) {
+        if (onInitialState()) {
             super.setText("");
             showingHint = false;
         }
     }
     @Override
     public void focusLost(FocusEvent e) {
-        try {
-            String content = this.getDocument().getText(0, 1);
-            if(content.isBlank()) {
-                super.setText(hint);
-                showingHint = true;
-            }
-        } catch(Exception ex) {
+        if (onInitialState()) {
             super.setText(hint);
             showingHint = true;
         }
@@ -46,5 +34,14 @@ public class HintTextField extends JTextField implements FocusListener {
     @Override
     public String getText() {
         return showingHint ? "" : super.getText();
+    }
+
+    private boolean onInitialState() {
+        try {
+            String content = this.getDocument().getText(0, 1);
+            return content.isBlank() || content.equals(".");
+        } catch(Exception ex) {
+            return true;
+        }
     }
 }
