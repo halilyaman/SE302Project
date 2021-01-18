@@ -5,12 +5,13 @@ import java.util.ArrayList;
 public class Syllabus {
     public final int id;
     public final String courseName;
-    public final String code;
+    public final String courseCode;
     public final String semester;
     public final int theoryHours;
     public final int labHours;
     public final int localCredits;
-    public final ArrayList<String> prerequisites;
+    public final int ects;
+    public final String prerequisites;
     public final String courseLanguage;
     public final String courseType;
     public final String courseLevel;
@@ -21,7 +22,7 @@ public class Syllabus {
     public final ArrayList<String> learningOutcomes;
     public final String courseDescription;
     public final String courseCategory;
-    public final ArrayList<String> weeklySubjects;
+    public final ArrayList<String[]> weeklySubjects;
     public final ArrayList<String> courseNotesAndBooks;
     public final ArrayList<String> suggestedMaterials;
     public final ArrayList<EvaluationActivity> evaluationActivities;
@@ -31,12 +32,13 @@ public class Syllabus {
     public Syllabus(
             int id,
             String courseName,
-            String code,
+            String courseCode,
             String semester,
             int theoryHours,
             int labHours,
             int localCredits,
-            ArrayList<String> prerequisites,
+            int ects,
+            String prerequisites,
             String courseLanguage,
             String courseType,
             String courseLevel,
@@ -47,7 +49,7 @@ public class Syllabus {
             ArrayList<String> learningOutcomes,
             String courseDescription,
             String courseCategory,
-            ArrayList<String> weeklySubjects,
+            ArrayList<String[]> weeklySubjects,
             ArrayList<String> courseNotesAndBooks,
             ArrayList<String> suggestedMaterials,
             ArrayList<EvaluationActivity> evaluationActivities,
@@ -55,11 +57,12 @@ public class Syllabus {
             ArrayList<Clopq> clopqRelationship) {
         this.id = id;
         this.courseName = courseName;
-        this.code = code;
+        this.courseCode = courseCode;
         this.semester = semester;
         this.theoryHours = theoryHours;
         this.labHours = labHours;
         this.localCredits = localCredits;
+        this.ects = ects;
         this.prerequisites = prerequisites;
         this.courseLanguage = courseLanguage;
         this.courseType = courseType;

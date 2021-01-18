@@ -18,7 +18,13 @@ public class HintTextField extends JTextField implements FocusListener {
 
     @Override
     public void focusGained(FocusEvent e) {
-        if(this.getText().isEmpty()) {
+        try {
+            String content = this.getDocument().getText(0, 1);
+            if(content.length() < 1) {
+                super.setText("");
+                showingHint = false;
+            }
+        } catch(Exception ex) {
             super.setText("");
             showingHint = false;
         }

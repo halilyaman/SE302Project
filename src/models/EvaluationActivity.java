@@ -1,12 +1,10 @@
 package models;
 
 public class EvaluationActivity {
-    public final String semesterActivity;
-    public final int number;
-    public final int weigthing;
+    public final Integer number;
+    public final Integer weigthing;
 
-    public EvaluationActivity(String semesterActivity, int number, int weigthing) {
-        this.semesterActivity = semesterActivity;
+    public EvaluationActivity(Integer number, Integer weigthing) {
         this.number = number;
         this.weigthing = weigthing;
     }

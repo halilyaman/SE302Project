@@ -1,5 +1,8 @@
 package pages;
 
+import models.EctsActivity;
+import models.EvaluationActivity;
+import models.Syllabus;
 import pages.elements.HintTextField;
 import res.Values;
 import utils.GuiUtils;
@@ -12,44 +15,53 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CreateSyllabusPage extends JPanel {
-    final private JPanel topPanel;
-    final private JPanel formPanel;
-    final private HintTextField courseNameField;
-    final private HintTextField codeField;
-    final private HintTextField theoryField;
-    final private HintTextField appLabField;
-    final private JLabel localCreditsLabel;
-    final private JLabel ectsLabel;
-    final private JComboBox<String> semesterComboBox;
-    final private HintTextField prerequisitesField;
-    final private HintTextField languageField;
-    final private JComboBox<String> courseTypeComboBox;
-    final private JComboBox<String> courseLevelComboBox;
-    final private HintTextField coordinatorField;
-    final private HintTextField lecturersField;
-    final private HintTextField assistantsField;
-    final private HintTextField courseObjectivesField;
-    final private HintTextField learningOutcomesField;
-    final private HintTextField courseDescriptionField;
-    final private JComboBox<String> courseCategoryComboBox;
+    private JPanel topPanel;
+    private JPanel formPanel;
+    private HintTextField courseNameField;
+    private HintTextField courseCodeField;
+    private HintTextField theoryField;
+    private HintTextField appLabField;
+    private JLabel localCreditsLabel;
+    private JLabel ectsLabel;
+    private JComboBox<String> semesterComboBox;
+    private HintTextField prerequisitesField;
+    private HintTextField languageField;
+    private JComboBox<String> courseTypeComboBox;
+    private JComboBox<String> courseLevelComboBox;
+    private HintTextField coordinatorField;
+    private HintTextField lecturersField;
+    private HintTextField assistantsField;
+    private HintTextField courseObjectivesField;
+    private HintTextField learningOutcomesField;
+    private HintTextField courseDescriptionField;
+    private JComboBox<String> courseCategoryComboBox;
     final private ArrayList<Component[]> weeklySubjectItems = new ArrayList<>();
     private JPanel weeklySubjectsPanel;
-    final private JTextField courseNotesField;
-    final private JTextField suggestedReadingsField;
+    private JTextField courseNotesField;
+    private JTextField suggestedReadingsField;
     final private ArrayList<JTextField[]> evaluationSystemFields = new ArrayList<>();
-    final private JLabel totalNumber;
-    final private JLabel totalWeigthing;
+    private JLabel totalNumber;
+    private JLabel totalWeigthing;
     final private ArrayList<Component[]> ectsWorkloadFields = new ArrayList<>();
-    final private JLabel totalWorkload;
+    private JLabel totalWorkload;
     private JPanel outcomesPanel;
     final private ArrayList<Component[]> outcomeItems = new ArrayList<>();
 
     public CreateSyllabusPage() {
+        initPage();
+    }
+
+    public CreateSyllabusPage(Syllabus syllabus) {
+        initPage();
+        fillSyllabusInfo(syllabus);
+    }
+
+    private void initPage() {
         // initializations
         topPanel = new JPanel();
         formPanel = new JPanel();
         courseNameField = GuiUtils.buildTextFieldWithBorder();
-        codeField = GuiUtils.buildTextFieldWithBorder();
+        courseCodeField = GuiUtils.buildTextFieldWithBorder();
         theoryField = GuiUtils.buildTextFieldWithBorder();
         appLabField = GuiUtils.buildTextFieldWithBorder();
         localCreditsLabel = GuiUtils.buildLabelWithBorder("...");
@@ -86,6 +98,96 @@ public class CreateSyllabusPage extends JPanel {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         innerPanel.add(formPanel);
         this.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private void fillSyllabusInfo(Syllabus syllabus) {
+        courseNameField.setText(syllabus.courseName);
+        courseCodeField.setText(syllabus.courseCode);
+        semesterComboBox.setSelectedItem(syllabus.semester);
+        theoryField.setText(Integer.toString(syllabus.theoryHours));
+        appLabField.setText(Integer.toString(syllabus.labHours));
+        localCreditsLabel.setText(Integer.toString(syllabus.localCredits));
+        ectsLabel.setText(Integer.toString(syllabus.ects));
+        prerequisitesField.setText(syllabus.prerequisites);
+        languageField.setText(syllabus.courseLanguage);
+        courseTypeComboBox.setSelectedItem(syllabus.courseType);
+        courseLevelComboBox.setSelectedItem(syllabus.courseLevel);
+        coordinatorField.setText(syllabus.courseCoordinator);
+        lecturersField.setText(syllabus.courseLecturers.get(0));
+        assistantsField.setText(syllabus.courseAssistants.get(0));
+        courseObjectivesField.setText(syllabus.courseObjectives);
+        learningOutcomesField.setText(syllabus.learningOutcomes.get(0));
+        courseDescriptionField.setText(syllabus.courseDescription);
+        courseCategoryComboBox.setSelectedItem(syllabus.courseCategory);
+        weeklySubjectItems.clear();
+        for (int i = 0; i < syllabus.weeklySubjects.size(); i++) {
+            try {
+                JTextField subjectsField = GuiUtils.buildTextFieldWithBorder();
+                JTextField preparationField = GuiUtils.buildTextFieldWithBorder();
+
+                subjectsField.setText(syllabus.weeklySubjects.get(i)[0]);
+                preparationField.setText(syllabus.weeklySubjects.get(i)[1]);
+
+                // configure content of weekly subject item panel
+                Dimension textFieldSize = new Dimension(300, Values.formHeightMedium);
+                subjectsField.setPreferredSize(textFieldSize);
+                preparationField.setPreferredSize(textFieldSize);
+
+                Component[] components = new Component[]{subjectsField, preparationField};
+                weeklySubjectItems.add(components);
+            } catch(Exception e) {
+                // handle this case
+            }
+        }
+        updateWeeklySubjectsPanel();
+        courseNotesField.setText(syllabus.courseNotesAndBooks.get(0));
+        suggestedReadingsField.setText(syllabus.suggestedMaterials.get(0));
+        for (int i = 0; i < 11; i++) {
+            if (syllabus.evaluationActivities.get(i) != null) {
+                try {
+                    EvaluationActivity e = syllabus.evaluationActivities.get(i);
+                    evaluationSystemFields.get(i)[0].setText(Integer.toString(e.number));
+                    evaluationSystemFields.get(i)[1].setText(Integer.toString(e.weigthing));
+                } catch(Exception e) {
+                    // handle this case
+                }
+            }
+        }
+        calculateTotalNumberAndWeighting();
+        for (int i = 0; i < 12; i++) {
+            try {
+                EctsActivity e = syllabus.ectsTable.get(i);
+                JTextField numberField = (JTextField) ectsWorkloadFields.get(i)[0];
+                numberField.setText(Integer.toString(e.number));
+                JTextField durationField = (JTextField) ectsWorkloadFields.get(i)[1];
+                durationField.setText(Integer.toString(e.durationInHours));
+                JLabel workloadLabel = (JLabel) ectsWorkloadFields.get(i)[2];
+                workloadLabel.setText(Integer.toString(e.workload));
+            } catch(Exception e) {
+                // handle this case
+            }
+        }
+        updateTotalWorkload();
+        outcomeItems.clear();
+        for (int i = 0; i < syllabus.clopqRelationship.size(); i++) {
+            JTextField outcomeField = GuiUtils.buildTextFieldWithBorder();
+            JTextField contributionField = GuiUtils.buildTextFieldWithBorder();
+            try {
+                outcomeField.setText(syllabus.clopqRelationship.get(i).outcome);
+                contributionField.setText(Integer.toString(syllabus.clopqRelationship.get(i).contributionLevel));
+            } catch(Exception e) {
+                // handle this case
+            }
+
+            // configure content of outcome contribution item
+            Dimension textFieldSize = new Dimension(300, Values.formHeightMedium);
+            outcomeField.setPreferredSize(textFieldSize);
+            contributionField.setPreferredSize(textFieldSize);
+
+            Component[] components = new Component[]{outcomeField, contributionField};
+            outcomeItems.add(components);
+        }
+        updateOutcomesPanel();
     }
 
     private void buildTopPanel() {
@@ -178,7 +280,7 @@ public class CreateSyllabusPage extends JPanel {
         secondPanel.add(appLabLabel);
         secondPanel.add(localCreditsLabel);
         secondPanel.add(ectsLabel);
-        secondPanel.add(codeField);
+        secondPanel.add(courseCodeField);
         secondPanel.add(semesterComboBox);
         secondPanel.add(theoryField);
         secondPanel.add(appLabField);
@@ -581,7 +683,7 @@ public class CreateSyllabusPage extends JPanel {
 
     private JPanel buildEctsWorkloadTablePanel() {
         // create ects workload panel
-        JPanel ectsWorkloadPanel = new JPanel(new GridLayout(13, 4));
+        JPanel ectsWorkloadPanel = new JPanel(new GridLayout(14, 4));
         ectsWorkloadPanel.setBackground(Values.AppColors.backgroundColor);
         ectsWorkloadPanel.setPreferredSize(new Dimension(Values.formWidth, Values.formHeightMedium * 17));
         ectsWorkloadPanel.setBorder(GuiUtils.emptyBorder);
@@ -625,7 +727,7 @@ public class CreateSyllabusPage extends JPanel {
         ectsWorkloadPanel.add(workload);
 
         // set text fields
-        for (int i = 0; i < 11 ; i++) {
+        for (int i = 0; i < 12 ; i++) {
             JTextField numberField = GuiUtils.buildTextFieldWithBorder();
             JTextField durationField = GuiUtils.buildTextFieldWithBorder();
             JLabel workloadLabel = GuiUtils.buildLabelWithBorder("...");
@@ -749,7 +851,7 @@ public class CreateSyllabusPage extends JPanel {
         // create titles
         JLabel outcomeNumberLabel = GuiUtils.buildLabelWithBorder("#");
         JLabel outcomeLabel = GuiUtils.buildLabelWithBorder("Program Competencies / Outcomes");
-        JLabel contributionLevelLabel = GuiUtils.buildLabelWithBorder("Contribution Level (1 - 5)");
+        JLabel contributionLevelLabel = GuiUtils.buildLabelWithBorder("Contribution Level (1-Lowest, 5-Highest)");
 
         // set titles
         contentPanel.add(outcomeNumberLabel);
@@ -788,7 +890,7 @@ public class CreateSyllabusPage extends JPanel {
     }
 
     private void removeLastOutcomeItem() {
-        // remove last weekly subject item
+        // remove last outcome item
         if (outcomeItems.size() > 1) {
             outcomeItems.remove(outcomeItems.size() - 1);
         }

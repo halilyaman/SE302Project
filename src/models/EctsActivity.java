@@ -1,13 +1,11 @@
 package models;
 
 public class EctsActivity {
-    public final String semesterActivity;
-    public final int number;
-    public final int durationInHours;
-    public final int workload;
+    public final Integer number;
+    public final Integer durationInHours;
+    public final Integer workload;
 
-    public EctsActivity(String semesterActivity, int number, int durationInHours, int workload) {
-        this.semesterActivity = semesterActivity;
+    public EctsActivity(Integer number, Integer durationInHours, Integer workload) {
         this.number = number;
         this.durationInHours = durationInHours;
         this.workload = workload;

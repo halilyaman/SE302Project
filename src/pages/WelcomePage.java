@@ -42,7 +42,7 @@ public class WelcomePage extends JPanel{
 
 	public void openCreateSyllabusPage()
 	{
-		Navigator.push(new CreateSyllabusPage());
+		Navigator.push(new CreateSyllabusPage(Values.SyllabusValues.sampleSyllabusObject));
 	}
 	
 	public void fetchSyllabusPage()
