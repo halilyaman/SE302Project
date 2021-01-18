@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class CreateSyllabusPage extends JPanel {
@@ -188,6 +190,9 @@ public class CreateSyllabusPage extends JPanel {
             outcomeItems.add(components);
         }
         updateOutcomesPanel();
+
+        // cancel changes which happened due to filling syllabus form
+        HintTextField.isChanged = false;
     }
 
     private void buildTopPanel() {
@@ -201,7 +206,23 @@ public class CreateSyllabusPage extends JPanel {
         JButton exportButton = new JButton("EXPORT");
 
         // set listener for back button
-        backButton.addActionListener(e -> Navigator.pop());
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean willClosed = checkCurrentChanges();
+                if (willClosed) {
+                    Navigator.pop();
+                }
+            }
+        });
+
+        // set listener for save button
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HintTextField.isChanged = false;
+            }
+        });
 
         childTopPanel.add(backButton);
         childTopPanel.add(saveButton);
@@ -904,5 +925,19 @@ public class CreateSyllabusPage extends JPanel {
         outcomesPanel = buildOutcomesPanel();
         formPanel.add(outcomesPanel, 13);
         formPanel.updateUI();
+    }
+
+    private boolean checkCurrentChanges() {
+        if (HintTextField.isChanged) {
+            int selectedOption = JOptionPane.showConfirmDialog(
+                    this,
+                    "Changes will be lost.\nAre you sure you want to close this page?",
+                    "Warning",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            return selectedOption == JOptionPane.YES_OPTION;
+        } else {
+            return true;
+        }
     }
 }
